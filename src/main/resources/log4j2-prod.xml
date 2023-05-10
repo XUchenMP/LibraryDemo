@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+    <properties>
+        <!-- 文件输出格式 -->
+        <property name="PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} |-%-5level [%thread] %c [%L] -| %msg%n</property>
+        <!--设置日志在硬盘上输出的目录-->
+        <!-- 相对路径配置，日志会存放在项目根目录下，依据相对路径创建文件夹 -->
+        <property name="logPath">logs</property><!-- 开发时强烈建议相对路径，好找。 绝对路径受操作系统限制，而且本地开发环境下真的分不清是哪个项目记的。。。-->
+        <!-- 绝对路径配置，日志会存放指定的绝对路径下 -->
+        <!--<property name="logPath">D:/log</property>--><!-- 生产环境发布时建议按项目要求设置绝对路径-->
+    </properties>
+    <appenders>
+        <Console name="CONSOLE" target="system_out">
+            <PatternLayout pattern="${PATTERN}" />
+        </Console>
+
+        <!--设置级别为INFO日志输出到info.log中-->
+        <RollingFile name="INFO" filename="${logPath}/info.log"
+                     filepattern="${logPath}/%d{YYYYMMdd}-%i-info.log.zip">
+            <Filters>
+                <!--设置只输出级别为INFO的日志-->
+                <ThresholdFilter level="INFO"/>
+                <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
+            <PatternLayout pattern="[ %-5p]:%d{YYYY-MM-dd HH:mm:ss} [%t] %c{1}:%L - %msg%n" />
+            <Policies>
+                <!--设置每天打包日志一次-->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <!--设置日志文件满1MB后打包-->
+                <SizeBasedTriggeringPolicy size="1 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingFile>
+
+        <!--设置级别为WARN日志输出到warn.log中-->
+        <RollingFile name="WARN" filename="${logPath}/warn.log"
+                     filepattern="${logPath}/%d{YYYYMMdd}-%i-warn.log.zip">
+            <Filters>
+                <!--设置只输出级别为WARN的日志-->
+                <ThresholdFilter level="WARN"/>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
+            <PatternLayout pattern="[ %-5p]:%d{YYYY-MM-dd HH:mm:ss} [%t] %c{1}:%L - %msg%n" />
+            <Policies>
+                <!--设置每天打包日志一次-->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <!--设置日志文件满1MB后打包-->
+                <SizeBasedTriggeringPolicy size="1 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingFile>
+
+        <!--设置级别为ERROR日志输出到error.log中-->
+        <RollingFile name="ERROR" filename="${logPath}/error.log"
+                     filepattern="${logPath}/%d{YYYYMMdd}-%i-error.log.zip">
+            <!--设置只输出级别为ERROR的日志-->
+            <ThresholdFilter level="ERROR"/>
+            <PatternLayout pattern="[ %-5p]:%d{YYYY-MM-dd HH:mm:ss} [%t] %c{1}:%L - %msg%n" />
+            <Policies>
+                <!--设置每天打包日志一次-->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <!--设置日志文件满1MB后打包-->
+                <SizeBasedTriggeringPolicy size="1 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingFile>
+
+
+    </appenders>
+    <Loggers>
+<!--        <logger name="com.test2.qftest2" level="INFO" additivity="true">-->
+<!--            &lt;!&ndash;<appender-ref ref="Mail" />&ndash;&gt;-->
+<!--        </logger>-->
+        <!--<root level="DEBUG">--><!-- debug信息实在是太多了，不想看 -->
+        <root level="INFO">
+            <appender-ref ref="INFO" />
+            <appender-ref ref="WARN" />
+            <appender-ref ref="ERROR" />
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </Loggers>
+</configuration>

@@ -1,0 +1,14 @@
+logging:
+  config: src/main/resources/log4j2-dev.xml
+
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/library_dev?useUnicode=true&characterEncoding=utf8&useSSL=false&rewriteBatchedStatements=true&serverTimezone=UTC
+    username: root
+    password: root
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+

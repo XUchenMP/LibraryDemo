@@ -1,0 +1,11 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: LibraryDemo
+  profiles:
+    active: dev
+mybatis:
+  #  typeAliasesPackage: com.neuedu.entity
+  mapper-locations: classpath*:mapper/*.xml
