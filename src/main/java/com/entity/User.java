@@ -3,15 +3,15 @@ package com.entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
-import java.util.Date;
 
 
 @ApiModel(value = "用户信息",description = "用户信息")
 public class User implements Serializable{
 
+    @ApiModelProperty(hidden = true)
     private Integer id ;
     /** 用户名称 */
-    @ApiModelProperty(name = "用户名称",notes = "用户名称")
+    @ApiModelProperty(hidden = true)
     private String nickname ;
     /** 用户名 */
     @ApiModelProperty(name = "username",notes = "用户名")

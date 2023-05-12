@@ -27,4 +27,10 @@ public class GlobalExceptionHandler {
         log.error("无此权限", e);
         return ResultVO.newInstance(ResultCode.FAIL_NO_AUTH);
     }
+
+    @ExceptionHandler(value = {Exception.class})
+    public Object handle(Exception e, HandlerMethod m) {
+        log.error("系统异常:" , e);
+        return ResultVO.newInstance(ResultCode.ERROR);
+    }
 }
