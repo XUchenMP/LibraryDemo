@@ -24,7 +24,9 @@ Spring boot、Mybatis、Sa-Token、Swagger、log4j2
 
 2、在application.yml修改端口和选择环境启动（默认8080端口，开发环境。dev为开发环境，prod为生产环境。生产环境禁用了swagger，开发环境不会将日志写入磁盘）
 
-3、系统存在三个账号：
+3、swagger地址：http://localhost:8080/swagger-ui.html
+
+4、系统存在三个账号：
     超级管理员(username:root pwd:与账号一样，下同)：系统最高权限，但是由于没有开发用户管理模块，所以权限跟图书管理员一样。
     图书管理员(bookManager):能够对图书进行增删改查。
     普通用户(test1):只能够查询，不能增删改。
