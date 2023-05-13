@@ -1,11 +1,13 @@
 package com.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.StpUtil;
 import com.common.ResultCode;
 import com.common.ResultVO;
 import com.entity.User;
 import com.service.UserService;
+import com.utils.Encryption;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -29,6 +31,7 @@ public class UserController {
     @ApiOperation("登录")
     @PostMapping("/login")
     public ResultVO login(User user) {
+        user.setPassword(Encryption.encryption(user.getPassword()));
         User loginUser = userService.login(user);
         if (loginUser != null) {
             StpUtil.login(loginUser.getUsername());
@@ -41,8 +44,8 @@ public class UserController {
     @PostMapping("/logout")
     @SaCheckLogin
     public ResultVO logout() {
-        StpUtil.logout();
         redisTemplate.delete(StpUtil.getLoginId());
+        StpUtil.logout();
         return ResultVO.newInstance(ResultCode.SUCCESS);
     }
 
