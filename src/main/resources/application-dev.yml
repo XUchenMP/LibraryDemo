@@ -16,3 +16,7 @@ spring:
 #是否开启swagger，开发环境开启
 swagger:
   enable: true
+
+#用户多长时间无操作自动登出，单位（秒）
+sa-token:
+  activity-timeout: 1800

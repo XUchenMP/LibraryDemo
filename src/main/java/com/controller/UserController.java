@@ -8,7 +8,7 @@ import com.entity.User;
 import com.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,15 +23,18 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    @Resource
+    private RedisTemplate redisTemplate;
+
     @ApiOperation("登录")
     @PostMapping("/login")
-    public ResultVO login(User user){
+    public ResultVO login(User user) {
         User loginUser = userService.login(user);
         if (loginUser != null) {
             StpUtil.login(loginUser.getUsername());
             return ResultVO.newInstance(ResultCode.SUCCESS);
         }
-        return ResultVO.newFailInstance("1","用户名或密码有误");
+        return ResultVO.newFailInstance("1", "用户名或密码有误");
     }
 
     @ApiOperation("退出登录")
@@ -39,6 +42,7 @@ public class UserController {
     @SaCheckLogin
     public ResultVO logout() {
         StpUtil.logout();
+        redisTemplate.delete(StpUtil.getLoginId());
         return ResultVO.newInstance(ResultCode.SUCCESS);
     }
 
